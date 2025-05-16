@@ -1,0 +1,32 @@
+<app-header (componentChange)="setActiveComponent($event)"></app-header>
+
+
+<div *ngIf="activeComponent === 'hero'">
+  <app-hero></app-hero>
+</div>
+
+<div *ngIf="activeComponent === 'portfolio'">
+  <app-portfolio></app-portfolio>
+</div>
+
+<div *ngIf="activeComponent === 'about'">
+  <app-about></app-about>
+</div>
+
+<div *ngIf="activeComponent === 'contact'">
+  <app-contact></app-contact>
+</div>
+
+<div *ngIf="activeComponent === 'add-product'">
+  <app-add-product (productAdded)="addProduct($event)"></app-add-product>
+</div>
+
+<div *ngIf="activeComponent === 'product-list'">
+  <app-product-list 
+    [products]="products"
+    (deleteProduct)="deleteProduct($event)">
+  </app-product-list>
+</div>
+
+<app-footer></app-footer>
+

@@ -1,0 +1,47 @@
+<div class="product-card">
+    <div class="product-delete" (click)="onDelete()">
+        <i class="fas fa-times"></i>
+    </div>
+    
+    <div class="product-image">
+        <img [src]="product.imageUrl" [alt]="product.name">
+        
+        <div [ngClass]="{
+            'product-badge': true,
+            'bg-danger': product.quantity === 0,
+            'bg-warning text-dark': product.quantity === 1,
+            'bg-success': product.quantity > 1
+        }">
+            <span *ngIf="product.quantity === 0">Out of Stock</span>
+            <span *ngIf="product.quantity === 1">Last Item!</span>
+            <span *ngIf="product.quantity > 1">In Stock: {{ product.quantity }}</span>
+        </div>
+    </div>
+    
+    <div class="product-info">
+        <h5 [innerHTML]="product.name | highlightSearch:searchTerm"></h5>
+        <div class="product-price">
+            {{ product.price | currency }}
+        </div>
+        
+        <div class="product-actions">
+            <!-- Using [ngClass] with object syntax -->
+            <button 
+                [ngClass]="{
+                    'btn': true,
+                    'btn-sm': true,
+                    'w-100': true,
+                    'btn-danger': product.quantity === 0,
+                    'btn-warning': product.quantity === 1,
+                    'btn-success': product.quantity > 1
+                }"
+                [disabled]="product.quantity === 0"
+            >
+                <!-- Using [class.disabled] with condition -->
+                <span [class.disabled]="product.quantity === 0">
+                    {{ getButtonText() }}
+                </span>
+            </button>
+        </div>
+    </div>
+</div>

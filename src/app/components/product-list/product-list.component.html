@@ -1,0 +1,122 @@
+<section class="page-section" id="products">
+    <div class="container mt-5 pt-5">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Products</h2>
+        
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-store"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="search-container">
+                    <input type="text" 
+                           class="form-control" 
+                           placeholder="Search products..." 
+                           [(ngModel)]="searchTerm" 
+                           (input)="onSearch()">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="form-group">
+                    <select class="form-control" [(ngModel)]="sortBy" (change)="onSortChange()">
+                        <option value="default">Sort by: Default</option>
+                        <option value="name">Name (A-Z)</option>
+                        <option value="price_asc">Price (Low-High)</option>
+                        <option value="price_desc">Price (High-Low)</option>
+                        <option value="quantity">Availability</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Product Cards -->
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4 mb-4" *ngFor="let product of filteredProducts">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img [src]="product.imageUrl" [alt]="product.name">
+                        
+                        <div class="product-badge"
+                             [class.bg-danger]="product.quantity === 0"
+                             [class.bg-warning]="product.quantity === 1"
+                             [class.bg-success]="product.quantity > 1">
+                            <span *ngIf="product.quantity === 0">Out of Stock</span>
+                            <span *ngIf="product.quantity === 1">Last Item!</span>
+                            <span *ngIf="product.quantity > 1">In Stock: {{ product.quantity }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="product-delete" (click)="onDeleteProduct(product.id)">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    
+                    <div class="product-info">
+                        <h5>{{ product.name }}</h5>
+                        <div class="product-price">
+                            {{ product.price | currency }}
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button 
+                                class="btn btn-sm w-100"
+                                [class.btn-danger]="product.quantity === 0"
+                                [class.btn-warning]="product.quantity === 1"
+                                [class.btn-success]="product.quantity > 1"
+                                [disabled]="product.quantity === 0">
+                                {{ product.quantity === 0 ? 'Out of Stock' : 'Buy Now' }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- No products message -->
+            <div class="col-12 text-center p-5" *ngIf="filteredProducts.length === 0">
+                <div class="empty-products">
+                    <i class="fas fa-shopping-cart fa-3x mb-3 text-muted"></i>
+                    <h4>No products found</h4>
+                    <p class="text-muted">
+                        <span *ngIf="searchTerm">
+                            No products match your search "{{ searchTerm }}"
+                        </span>
+                        <span *ngIf="!searchTerm">
+                            There are no products available
+                        </span>
+                    </p>
+                    <a href="#" (click)="$event.preventDefault(); searchTerm = ''; onSearch()">Clear search</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Product Stats -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="product-stats d-flex justify-content-around flex-wrap py-4">
+                    <div class="stat-item text-center">
+                        <div class="stat-value">{{ products.length }}</div>
+                        <div class="stat-label">Total Products</div>
+                    </div>
+                    
+                    <div class="stat-item text-center">
+                        <div class="stat-value">
+                            {{ getTotalStock() }}
+                        </div>
+                        <div class="stat-label">Items in Stock</div>
+                    </div>
+                    
+                    <div class="stat-item text-center">
+                        <div class="stat-value">
+                            {{ getOutOfStockCount() }}
+                        </div>
+                        <div class="stat-label">Out of Stock</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

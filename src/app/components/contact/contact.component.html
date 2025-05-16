@@ -1,0 +1,99 @@
+<!-- Add Movie Section-->
+<section class="page-section" id="contact">
+    <div class="container">
+        <!-- Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Add Movie</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-film"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Add Movie Form-->
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <form id="movieForm">
+                    <!-- Image Upload -->
+                    <div class="form-group mb-3">
+                        <label for="movieImage"><i class="fas fa-image me-2"></i>Movie Poster</label>
+                        <input class="form-control" id="movieImage" type="file" (change)="onFileSelected($event)" accept="image/*" />
+                        <small class="text-muted">Select an image file with movie poster (JPG, PNG)</small>
+                        <div *ngIf="uploadSuccess" class="alert alert-success mt-2">
+                            <i class="fas fa-check-circle me-2"></i>{{ uploadMessage }}
+                        </div>
+                    </div>
+                    
+                    <!-- Title input-->
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="title" type="text" placeholder="Enter movie title..." 
+                               [(ngModel)]="newMovie.title" name="title" required />
+                        <label for="title"><i class="fas fa-heading me-2"></i>Movie Title</label>
+                    </div>
+                    
+                    <!-- Description input-->
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" id="description" placeholder="Enter movie description..." 
+                                  style="height: 10rem" [(ngModel)]="newMovie.description" name="description" required></textarea>
+                        <label for="description"><i class="fas fa-align-left me-2"></i>Description</label>
+                    </div>
+                    
+                    <!-- Rate input-->
+                    <div class="form-floating mb-4">
+                        <input class="form-control" id="rate" type="number" min="0" max="10" step="0.1" 
+                               placeholder="Rate (0-10)" [(ngModel)]="newMovie.rate" name="rate" required />
+                        <label for="rate"><i class="fas fa-star me-2"></i>Rate (0-10)</label>
+                    </div>
+                    
+                    <!-- Submit Button-->
+                    <button class="btn btn-primary btn-xl w-100" id="submitButton" type="button" (click)="addMovie()">
+                        <i class="fas fa-plus-circle me-2"></i>Add Movie
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Search Movies -->
+        <div class="row mt-5 mb-4 justify-content-center">
+            <div class="col-md-6">
+                <div class="search-container">
+                    <div class="form-floating">
+                        <input class="form-control" id="searchInput" type="text" placeholder="Search movies..." 
+                               [(ngModel)]="searchTerm" name="search" />
+                        <label for="searchInput">Search Movies</label>
+                    </div>
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Movies Card Gallery -->
+        <div class="row">
+            <div class="col-md-4 mb-4" *ngFor="let movie of filteredMovies">
+                <div class="card movie-card h-100">
+                    <img [src]="movie.imageUrl" class="card-img-top" alt="{{ movie.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ movie.title }}</h5>
+                        <p class="card-text">{{ movie.description }}</p>
+                        <div class="rating">
+                            <span class="badge bg-warning text-dark">
+                                <i class="fas fa-star"></i> {{ movie.rate.toFixed(1) }}/10
+                            </span>
+                            <button class="btn btn-danger" (click)="deleteMovie(movie.id)">
+                                <i class="fas fa-trash-alt me-1"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- No movies message -->
+            <div class="col-12" *ngIf="filteredMovies.length === 0">
+                <div class="no-movies">
+                    <i class="fas fa-film mb-3"></i>
+                    <h4>No movies found</h4>
+                    <p>Try searching with a different term or add a new movie</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

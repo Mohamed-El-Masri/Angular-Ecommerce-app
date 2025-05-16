@@ -1,0 +1,77 @@
+<section class="page-section" id="add-product">
+    <div class="container mt-5 pt-5">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Add New Product</h2>
+        
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-shopping-cart"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div *ngIf="uploadSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong><i class="fas fa-check-circle me-2"></i>Success!</strong> {{ uploadMessage }}
+                    <button type="button" class="btn-close" (click)="uploadSuccess = false"></button>
+                </div>
+                
+                <form class="product-form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Image Upload -->
+                            <div class="form-group mb-4">
+                                <label for="productImage">
+                                    <i class="fas fa-image me-2"></i>Product Image *
+                                </label>
+                                <div class="image-upload-container">
+                                    <input type="file" class="form-control" id="productImage" 
+                                           accept="image/*" (change)="onFileSelected($event)" />
+                                           
+                                    <div class="image-preview mt-3">
+                                        <img [src]="newProduct.imageUrl" alt="Product preview" class="img-thumbnail">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <!-- Product Name -->
+                            <div class="form-group mb-4">
+                                <label for="name">
+                                    <i class="fas fa-tag me-2"></i>Product Name *
+                                </label>
+                                <input type="text" class="form-control" id="name" 
+                                       [(ngModel)]="newProduct.name" name="name" placeholder="Enter product name" />
+                            </div>
+                            
+                            <!-- Product Price -->
+                            <div class="form-group mb-4">
+                                <label for="price">
+                                    <i class="fas fa-dollar-sign me-2"></i>Price *
+                                </label>
+                                <input type="number" class="form-control" id="price" 
+                                       [(ngModel)]="newProduct.price" name="price" placeholder="Enter product price" min="0.01" step="0.01" />
+                            </div>
+                            
+                            <!-- Product Quantity -->
+                            <div class="form-group mb-4">
+                                <label for="quantity">
+                                    <i class="fas fa-boxes me-2"></i>Quantity *
+                                </label>
+                                <input type="number" class="form-control" id="quantity" 
+                                       [(ngModel)]="newProduct.quantity" name="quantity" placeholder="Enter product quantity" min="0" step="1" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions d-flex gap-2 mt-4">
+                        <button type="button" class="btn btn-primary btn-lg w-100" (click)="addProduct()">
+                            <i class="fas fa-save me-2"></i>Add Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

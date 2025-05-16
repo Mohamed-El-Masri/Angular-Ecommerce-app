@@ -1,0 +1,57 @@
+<!-- About Section-->
+<section class="page-section bg-primary text-white mb-0" id="about">
+    <div class="container">
+        <!-- About Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-white">Opened Tracks on ITI Branches</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-graduation-cap"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        
+        <p class="text-center lead mb-5">Select a branch to view available tracks or select "All Branches" to view all tracks across Egypt</p>
+        
+        <!-- Branch Selection Dropdown -->
+        <div class="row mb-5">
+            <div class="col-md-6 mx-auto">
+                <div class="branch-select-container">
+                    <select class="form-select form-select-lg branch-select" [(ngModel)]="selectedBranch" (change)="onBranchChange()">
+                        <option value="ALL">All Branches</option>
+                        <option *ngFor="let branch of branches" [value]="branch.name">{{ branch.name }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tracks Cards -->
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4 mb-4" *ngFor="let item of filteredTracks">
+                <div class="track-card">
+                    <div class="card-badge">{{ item.branch }}</div>
+                    <div class="card-header">
+                        <i class="fas fa-code track-icon"></i>
+                        <h5>{{ item.track.name }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ item.track.description }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-outline-light btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Results Message -->
+        <div class="row mt-4" *ngIf="filteredTracks.length === 0">
+            <div class="col-12 text-center">
+                <div class="no-results">
+                    <i class="fas fa-search fa-3x mb-3"></i>
+                    <h4>No tracks found for this branch</h4>
+                    <p>Please select another branch</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
