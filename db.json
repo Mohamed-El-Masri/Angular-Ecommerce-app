@@ -1,0 +1,31 @@
+{
+  "products": [
+    {
+      "id": "3",
+      "name": "Wireless Headphones",
+      "price": 149.99,
+      "description": "Premium sound quality with noise cancellation",
+      "imageUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MUW33_AV3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=Sk5mNVdNcjhJbUs0R1JIajlMTVBnVlZya2lKWlJmUEwrYndWOTJiVWJWQUYwVmtIbGRkS25RMVpBRlo0bk5DUW9odXUzN3kxdU5pZjFrUWErZ2llTVE",
+      "category": "Audio",
+      "inStock": false
+    },
+    {
+      "id": "4",
+      "name": "Smart Watch",
+      "price": 249.99,
+      "description": "Track your fitness and stay connectedaaaaaaaaaaaaa",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJC4_tN7gEl_7QEX5hMpC-ke4FEhCpUskbYA&s",
+      "category": "Wearables",
+      "inStock": true
+    },
+    {
+      "id": "d937",
+      "name": "Wireless Headphonessssss",
+      "price": 1500,
+      "description": "ffffffffffffffffffffff",
+      "imageUrl": "https://via.placeholder.com/200x300",
+      "category": "Clothing",
+      "inStock": true
+    }
+  ]
+}

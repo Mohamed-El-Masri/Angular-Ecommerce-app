@@ -1,15 +1,18 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-10 offset-lg-1">
-      <div class="alert alert-danger mb-4" *ngIf="error">
-        <i class="fa fa-exclamation-triangle me-2"></i> {{ error }}
+      <div class="not-found-card" *ngIf="productNotFound">
+        <i class="fa fa-search not-found-icon"></i>
+        <h3 class="not-found-title">Product Not Found</h3>
+        <p class="mb-4">The product you're looking for doesn't exist or has been removed.</p>
+        <a routerLink="/products" class="btn btn-primary">Return to Products List</a>
       </div>
-      
-      <div class="form-card">
+
+      <div class="form-card" *ngIf="!productNotFound">
         <div class="form-header">
           <div class="form-header-content">
-            <h2 class="form-title">Add New Product</h2>
-            <p class="form-subtitle">Enter the details of your new product below</p>
+            <h2 class="form-title">Edit Product</h2>
+            <p class="form-subtitle">Update the details of your product</p>
           </div>
         </div>
         <div class="form-body">
@@ -88,9 +91,8 @@
         </div>
         <div class="form-footer">
           <button type="button" class="btn btn-lg btn-cancel" (click)="cancel()">Cancel</button>
-          <button type="button" class="btn btn-lg btn-primary" (click)="onSubmit()" [disabled]="loading">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-            Add Product
+          <button type="button" class="btn btn-lg btn-update" (click)="onSubmit()">
+            <i class="fa fa-save me-2"></i> Save Changes
           </button>
         </div>
       </div>

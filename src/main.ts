@@ -1,8 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
 
-// Bootstrap the application with the root component
-bootstrapApplication(AppComponent, {
-  providers: [] // We're not using any providers like HTTP or Routing
-})
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, appConfig)
+  .catch((err) => console.error(err));

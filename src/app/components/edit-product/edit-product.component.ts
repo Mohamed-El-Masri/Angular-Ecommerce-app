@@ -1,32 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService, Product } from '../../services/product.service';
 
 @Component({
-  selector: 'app-add-product',
+  selector: 'app-edit-product',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './add-product.component.html',
-  styleUrl: './add-product.component.css'
+  templateUrl: './edit-product.component.html',
+  styleUrl: './edit-product.component.css'
 })
-export class AddProductComponent {
+export class EditProductComponent implements OnInit {
   productForm: FormGroup;
   submitted = false;
+  productId: number = 0;
+  productNotFound = false;
   loading = false;
   error: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
+    private route: ActivatedRoute,
     private router: Router
   ) {
     this.productForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       price: ['', [Validators.required, Validators.min(0.01)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      imageUrl: ['https://via.placeholder.com/200x300', Validators.required],
+      imageUrl: ['', Validators.required],
       category: ['', Validators.required],
       inStock: [true]
     });
@@ -40,6 +43,36 @@ export class AddProductComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.productId = +params['id'];
+      this.loadProduct(this.productId);
+    });
+  }
+
+  loadProduct(id: number): void {
+    this.productService.getProductById(id).subscribe({
+      next: (product) => {
+        if (product) {
+          this.productForm.setValue({
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            imageUrl: product.imageUrl,
+            category: product.category,
+            inStock: product.inStock
+          });
+        } else {
+          this.productNotFound = true;
+        }
+      },
+      error: (error) => {
+        console.error('Error loading product:', error);
+        this.productNotFound = true;
+      }
+    });
+  }
+
   get f() { return this.productForm.controls; }
 
   onSubmit(): void {
@@ -49,7 +82,8 @@ export class AddProductComponent {
       return;
     }
 
-    const product: Omit<Product, 'id'> = {
+    const updatedProduct: Product = {
+      id: this.productId,
       name: this.f['name'].value,
       price: this.f['price'].value,
       description: this.f['description'].value,
@@ -58,12 +92,12 @@ export class AddProductComponent {
       inStock: this.f['inStock'].value
     };
 
-    this.productService.addProduct(product).subscribe({
+    this.productService.updateProduct(updatedProduct).subscribe({
       next: () => {
         this.router.navigate(['/products']);
       },
       error: (error) => {
-        console.error('Error adding product:', error);
+        console.error('Error updating product:', error);
       }
     });
   }
